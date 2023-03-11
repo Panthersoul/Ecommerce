@@ -7,7 +7,7 @@ console.log("estoy arriba");
 
 app.use("/", router);
 app.listen(process.env.PORT || 3000, () =>  {
-    console.log(`Server listening port ${PORT}`);
+    console.log(`Server listening port ${process.env.PORT}`);
 })
 
 
