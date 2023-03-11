@@ -3,7 +3,7 @@ import router from "../routes/index.js"
 
 const app = express();
 
-console.log("estoy arriba");
+app.use(express.static(__dirname + "/public"))
 
 app.use("/", router);
 app.listen(process.env.PORT || 3000, () =>  {
