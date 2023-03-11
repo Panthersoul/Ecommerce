@@ -35,8 +35,12 @@
       </div>
   </div>
 
-
-    <p id="cuerpo" class="rojo"></p>
+  <div class="container d-flex justify-content-around align-items-center text-center mt-3">
+    <div class="col d-flex justify-content-center">
+      <p id="cuerpo" class="rojo">    </p> 
+    </div>
+</div>
+    
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script>
   // compile the template
@@ -45,7 +49,7 @@
 
   `);
   
-  const html = template({nombre: "Done by Andres"})
+  const html = template({nombre: "Coder"})
   document.getElementById("cuerpo").innerHTML = html
 </script>
 <style>
