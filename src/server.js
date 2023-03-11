@@ -3,10 +3,11 @@ import router from "../routes/index.js"
 
 const app = express();
 
+console.log("estoy arriba");
 
 app.use("/", router);
 app.listen(process.env.PORT || 3000, () =>  {
-    console.log("Server listening port 3000");
+    console.log(`Server listening port ${PORT}`);
 })
 
 
