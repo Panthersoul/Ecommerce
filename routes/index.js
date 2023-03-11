@@ -11,7 +11,7 @@ const router = Router();
 
 
 router.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "../public/index.html/"));
+  res.sendFile(join(__dirname, "../public/"));
   //res.sendFile("../public/index.html/");
 });
 
