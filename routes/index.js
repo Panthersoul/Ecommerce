@@ -6,7 +6,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "../public/"));
+  //res.sendFile(join(__dirname, "../public/index.html/"));
+  res.sendFile("../public/index.html/");
 });
 
 export default router;
