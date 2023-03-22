@@ -1,0 +1,100 @@
+body{
+    background-color: gainsboro;
+}
+
+h3{
+    color: #084298;
+}
+
+.imagen-icon{
+    max-width: 200px;
+}
+
+.imagenInicio{
+    max-width: 200px;
+}
+.ancho150{
+    max-width: 150px;
+}
+
+
+.sombra{
+        box-shadow: 10px 10px 19px 3px #9d8888;
+    
+}
+
+.fondoBlanco{
+    background-color: white;
+}
+
+.imagenportadaLogin{
+    padding-top: 35px;
+    text-align: end !important;
+    width: 63%;
+}
+
+.manito{
+    cursor: pointer;
+}
+
+.imgProd{
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+}
+
+
+.tagButton{
+    list-style-type: none;
+}
+
+.displayNone{
+    display: none;
+}
+
+hr{
+    /*color: white;*/
+    background-color: rgb(0, 0, 0) !important;
+    height: 1px;
+    border: none;
+    width: 80%;
+    
+}
+
+.botones {
+    justify-content: space-around;
+    display: flex;
+}
+
+.anchoVariable{
+    width: 50%;
+}
+
+.btnComprar{
+    max-width: 250px;
+}
+
+@media (max-width: 720px) {
+    .vertical{
+        flex-direction: column;
+
+    }
+
+    .anchoVariable{
+        width: 100%;
+    }
+ 
+}
+
+@media (min-width: 820px) {
+    .mitadAncho{
+        width: 45%;
+    }
+}
+
+
+@media (min-width: 1220px) {
+    .mitadAncho{
+        width: 25%;
+    }
+}

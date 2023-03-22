@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>App CoherHouse</title>
+</head>
+<body>
+   
+  
+
+  
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">CODERHOUSE</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./productos">
+              <button type="button" class="btn btn-secondary position-relative">
+                 Ingresar Producto
+                <span id="cartNotification" class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle displayNone">
+                  <span class="visually-hidden">New alerts</span>
+                </span>
+              </button>    
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./list">
+              <button type="button" class="btn btn-secondary position-relative">
+                Listar Productos
+                <span id="cartNotification" class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle displayNone">
+                  <span class="visually-hidden">New alerts</span>
+                </span>
+              </button>    
+            </a>
+          </li>
+          <!-- <li class="nav-item"><a class="nav-link" href="./list">Listar Productos</a></li> -->
+                  
+        </ul>
+        <li class="nav-item tagButton" onclick="logout()"><button class="btn btn-outline-primary">Logout</button></li>
+        
+        
+      </div>
+    </div>
+  </nav>
+
+
+
+
+
+
+
+
+
+        <div class="container d-flex justify-content-center flex-column text-center mt-5 mb-3">
+          <h3>Carrito de compras</h3>
+      </div>
+      <div id="contenedor" class="container d-flex justify-content-center flex-wrap ">
+       
+      </div>
+
+      <div   class="container d-flex justify-content-center text-center mt-5 mb-3 ">
+        <button onclick="comprar()" id="comprar" class="btn btn-success btnComprar sombra">Comprar</button>
+      </div>
+
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script >
+      async function getCart() {
+        
+        let valorIDCart = JSON.parse(localStorage.getItem("cart"));
+        let idCart = JSON.parse(valorIDCart);
+        
+        let url = './api/carrito/'+idCart._id+"/productos";
+          try {
+                  let res = await fetch(url, {
+                    method: 'GET'
+                  });
+                  return await res.json();
+              } catch (error) {
+                  console.log(error);
+              }
+          }
+
+        async function createCart()  {         
+          let url = './api/carrito/';
+              await fetch(url, {
+              method: 'POST'
+              })
+            .then((response) => response.json())
+            .then((result) => 
+            {
+              if (!localStorage.getItem("cart")){
+              localStorage.setItem('cart', JSON.stringify(result));
+               }
+            })
+        }
+        
+        if (!localStorage.getItem("cart")){
+        createCart();
+        }
+
+          async function renderCart() {
+            let cart = await getCart();
+
+              if (cart[0].products.length == 0){
+                document.getElementById("comprar").classList.add("displayNone");
+                alert("El carrito no tiene articulos aún.")
+              }
+              let html = '';
+
+              console.log("render cart"+JSON.stringify(cart[0]));
+
+              cart[0].products.forEach(prod => {
+                console.log(prod);
+                let producto = prod;
+                console.log(producto.nombreProducto);
+                
+                  let htmlSegment = `<div style="max-width:200px;" class="card m-3 sombra w-100" >
+                                     <img class="card-img-top imgProd" src="${producto.urlFotoProducto}" />
+                                      <div class="card-body">
+                                        <h2>${producto.nombreProducto}</h2>
+                                        <span><strong>Descripcion: </strong>${producto.descripcionProducto}</span><br>
+                                        <span><strong>Código: </strong>${producto.codigoProducto}</span><br>
+                                        <span><strong>Precio: </strong>$${producto.precioProducto}</span>
+                                        <p><strong> Stock Disponible: </strong> ${producto.stockProducto}</p>
+                                        <hr>
+                                        <a href="#" onclick="eliminar('${producto._id}')" class="btn btn-danger">QUITAR</a>
+                                      </div>
+                                  </div>`;
+                  html += htmlSegment;
+                  
+              });
+            
+              let container = document.getElementById('contenedor');
+              
+              container.innerHTML = html;
+          }
+
+          async function eliminar(id){
+            
+            let valorIDCart = JSON.parse(localStorage.getItem("cart"));
+            valorIDCart = JSON.parse(valorIDCart)._id
+            console.log("valor del carrito"+valorIDCart);
+            //window.location.reload();
+            
+              let url = './api/carrito/';
+              console.log(url + valorIDCart +"/productos/"+id);
+                
+                await fetch(url + valorIDCart +"/productos/"+id, {
+                  "method": 'DELETE'
+                }).then(response => JSON.stringify(response)).
+                then(res => {
+                  console.log(JSON.stringify("eliminado: "+res));
+                  location.reload();
+                })
+          }
+
+          (function () {
+            renderCart();
+          })();
+
+          async function comprar(){
+          let valorIDCart = JSON.parse(localStorage.getItem("cart"));
+          valorIDCart = JSON.parse(valorIDCart)._id;
+
+          let url = './api/carrito/buy/'+valorIDCart;
+              await fetch(url, {
+              method: 'POST'
+              })
+            .then((response) => response.json())
+            .then((result) => 
+            {
+              console.log(result);
+              window.location.href = "./"
+              })
+            }
+          
+
+          function logout (){
+        window.location.href = "./logout"
+      }
+          
+        </script>
+    
+</body>
+</html>
