@@ -74,20 +74,12 @@ if (cluster.isPrimary && args.mode.toUpperCase() === "CLUSTER")
 
         passport.use("login", passportStrategies.loginStrategy);
         passport.use("register", passportStrategies.registerStrategy);
-
-      /*  passport.serializeUser((user, done) => {
-          console.log(user);
-          done(null, user._id);
-          });
-  
-        passport.deserializeUser((id, done) => {
-          User.findById(id);
-          });*/
-          passport.serializeUser((user, done) => {
+        
+        passport.serializeUser((user, done) => {
             return done(null, user._id);
           });
 
-          passport.deserializeUser(async (id, done) => {  
+        passport.deserializeUser(async (id, done) => {  
             try {
               const user = await User.findById(id);
             } catch (error) {
@@ -98,6 +90,8 @@ if (cluster.isPrimary && args.mode.toUpperCase() === "CLUSTER")
               done(null, data)
             })
           })
+        //////////////////////////////////////////////
+
 
         app.use(express.json())
         app.use(express.urlencoded({extended: true}));        
@@ -113,7 +107,6 @@ if (cluster.isPrimary && args.mode.toUpperCase() === "CLUSTER")
         app.use('/', router);        
         app.use('/api/productos', routerProd);
         app.use('/api/carrito', routerCart);
-        
         app.use((req,res) => {
 
 
