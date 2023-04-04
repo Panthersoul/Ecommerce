@@ -104,6 +104,7 @@ if (cluster.isPrimary && args.mode.toUpperCase() === "CLUSTER")
           }
         })
 
+        
         app.use('/', router);        
         app.use('/api/productos', routerProd);
         app.use('/api/carrito', routerCart);
